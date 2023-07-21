@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import './css/UserForm.css'
+import './css/UserForm.css';
 
 const UserForm = () => {
   const router = useRouter();
@@ -33,6 +33,7 @@ const UserForm = () => {
       })
       .then((res) => {
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('uid', res.data.data._id);
         router.push('/chat');
       })
       .catch((err) => console.log(err));
@@ -102,7 +103,9 @@ const UserForm = () => {
             required
           />
         </div>
-        <button className='btn' type="submit">Submit</button>
+        <button className="btn" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

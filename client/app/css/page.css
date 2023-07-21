@@ -1,19 +1,18 @@
-.landing-container{
+.landing-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: sans-serif;
 }
-.illustration-container{
+.illustration-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0%;
-
 }
-h1{
-  color: #CD6688;
+h1 {
+  color: #cd6688;
   margin-bottom: 0;
 }

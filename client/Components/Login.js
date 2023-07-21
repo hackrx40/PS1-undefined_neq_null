@@ -30,6 +30,7 @@ const Login = () => {
             console.log(res);
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('uid', res.data.data._id);
+            console.log(res.data);
             router.push('/chat');
           }
         })
