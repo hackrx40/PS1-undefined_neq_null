@@ -5,9 +5,11 @@ import firebase from '../../lib/firebaseClient';
 import 'firebase/compat/auth';
 import { useRouter } from 'next/navigation';
 import { Logout } from '../../Components/Login';
+import { io } from 'socket.io-client';
 
 export default function Home() {
   const router = useRouter();
+  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     // Check if the user is already signed in, redirect to the home page
@@ -18,6 +20,19 @@ export default function Home() {
     });
     return () => unsubscribe();
   }, []);
+
+  const socket = io(`${backendURL}chat`);
+  socket.on('connect', () => {
+    console.log(socket);
+  });
+
+  socket.emit('message', {
+    message: 'Hello World',
+  });
+
+  socket.on('received-this', (message) => {
+    console.log(message);
+  });
 
   return (
     <main className="">
