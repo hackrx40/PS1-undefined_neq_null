@@ -1,23 +1,39 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import Image from 'next/image';
+import '../Components/css/Login.css'
 
 const TextMsg = ({ text, role }) => {
+  const url = localStorage.getItem('avatarURL');
   return (
-    <div style={{}}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {role == 'Bot' ? (
+        <div>
+          <Image
+            src="/images/bot-avatar.jpg"
+            width={50}
+            height={50}
+            alt="avatar"
+            style={{ borderRadius: '100%' }}
+          />
+        </div>
+      ) : null}
       <p
         style={
           role == 'User'
             ? {
-                width: 'fit-content',
+                // width: 'fit-content',
                 textAlign: 'right',
                 backgroundColor: '#CD6688',
                 color: 'white',
-                position: 'relative',
+                // position: 'relative',
                 left: '100%',
-                transform: 'translateX(-100%)',
+                // transform: 'translateX(-100%)',
                 padding: '10px',
                 borderRadius: '5px',
+                // justifySelf: 'flex-end',
+                marginLeft: 'auto',
               }
             : {
                 width: 'fit-content',
@@ -31,6 +47,18 @@ const TextMsg = ({ text, role }) => {
       >
         {text}
       </p>
+      {role == 'User' ? (
+        <div>
+          <Image
+            src={url}
+            width={40}
+            height={40}
+            alt="avatar"
+            style={{ borderRadius: '100%', 
+          marginLeft:'4px',}}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -66,11 +94,11 @@ const MainChat = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom:'15px',
+        paddingBottom: '15px',
       }}
     >
       <div style={{ margin: '0.5rem', color: '#CD6688' }}>
-        <h2>Chat ID:</h2>{' '}
+        <h2>Chat ID:</h2>
       </div>
       <div
         style={{
@@ -84,6 +112,8 @@ const MainChat = () => {
           position: 'relative',
         }}
       >
+        {/* "localStorage.getItem('avatarURl')" */}
+
         <TextMsg text="Hello from User" role="User" />
         <TextMsg text="Bot says Heyaa" role="Bot" />
         <TextMsg text="Hello from User" role="User" />
@@ -104,14 +134,26 @@ const MainChat = () => {
             style={{
               width: '80%',
               padding: '10px',
-              marginRight: '5px',
+              marginRight: '0',
+              border: 'none',
+              fontSize: '16px',
             }}
             placeholder="Type Here..."
             onChange={(e) => {
               setCurrMessage(e.target.value);
             }}
           />
-          <button style={{ flex: 1 }} onClick={handleMessageSend}>
+          <button
+            style={{
+              flex: 1,
+              border: 'none',
+              background: 'none',
+              marginRight: '10px',
+              // color: '#CD6688',
+              fontSize: '16px',
+            }}
+            onClick={handleMessageSend}
+          >
             Send
           </button>
         </div>
