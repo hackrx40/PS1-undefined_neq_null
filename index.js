@@ -1,15 +1,32 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import connectDB from './config/db';
-const { originUrl } = require('./config/index');
+import connectDB from './config/db.js';
+import userRouter from './api/v1/routes/userRoutes.js';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer);
+io.on('connection', (socket) => {
+  console.log(socket);
+});
+
+// chat socket
+const chatSocket = io.of('/chat');
+chatSocket.on('connection', (socket) => {
+  console.log('someone connected', socket);
+});
+chatSocket.on('message', (message) => {
+  console.log('message received', message);
+  chatSocket.emit("received-this", message);
+});
 
 connectDB();
 
 const corsOptions = {
-  origin: originUrl,
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: [
     'Access-Control-Allow-Origin',
@@ -28,6 +45,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
+
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -35,5 +54,10 @@ app.get('/', (req, res) => {
   });
 });
 
+// new user
+
+app.use('/api/v1/user', userRouter);
+
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
+httpServer.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
+// app.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
