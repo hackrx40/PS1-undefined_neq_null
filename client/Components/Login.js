@@ -4,6 +4,8 @@ import 'firebase/compat/auth';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+import './css/Login.css';
+
 const Login = () => {
   const router = useRouter();
   const prodUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -50,7 +52,9 @@ const Login = () => {
 
   return (
     <div>
-      <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+      <button className="btn" onClick={handleGoogleSignIn}>
+        Sign in with Google
+      </button>
     </div>
   );
 };
