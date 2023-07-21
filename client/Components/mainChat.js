@@ -11,16 +11,21 @@ const TextMsg = ({ text, role }) => {
             ? {
                 width: 'fit-content',
                 textAlign: 'right',
-                backgroundColor: '#2563EB',
-                color: 'whitesmoke',
+                backgroundColor: '#CD6688',
+                color: 'white',
                 position: 'relative',
                 left: '100%',
                 transform: 'translateX(-100%)',
+                padding: '10px',
+                borderRadius: '5px',
               }
             : {
                 width: 'fit-content',
                 textAlign: 'left',
-                backgroundColor: '#D1D5DB',
+                backgroundColor: '#461959',
+                color: 'white',
+                padding: '10px',
+                borderRadius: '5px',
               }
         }
       >
@@ -40,14 +45,19 @@ const MainChat = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingBottom:'15px',
       }}
     >
-      <div style={{ margin: '1rem' }}>Chat ID: </div>
+      <div style={{ margin: '0.5rem', color: '#CD6688' }}>
+        <h2>Chat ID:</h2>{' '}
+      </div>
       <div
         style={{
           height: '75vh',
           width: '40vw',
-          border: '2px solid red',
+          border: '2px solid grey',
+          borderRadius: '10px',
+          padding: '10px',
           display: 'flex',
           flexDirection: 'column',
         }}

@@ -24,9 +24,18 @@ export default function Home() {
 
   return (
     <main className="">
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <MainChat />
-        <Logout />
+        <div style={{ position: 'fixed', right: '15px', top: '15px' }}>
+          <Logout />
+        </div>
       </div>
     </main>
   );
