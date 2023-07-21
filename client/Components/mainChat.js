@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -38,6 +38,27 @@ const TextMsg = ({ text, role }) => {
 const MainChat = () => {
   const prodURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+  const [currMessage, setCurrMessage] = useState('');
+  const uid = localStorage.getItem('uid');
+  const cid = localStorage.getItem('cid');
+
+  const handleMessageSend = () => {
+    const data = {
+      uid,
+      cid,
+      message: currMessage,
+    };
+
+    axios
+      .post(`${prodURL}api/v1/chat/msg`, data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div
       style={{
@@ -53,13 +74,14 @@ const MainChat = () => {
       </div>
       <div
         style={{
-          height: '75vh',
+          height: '80vh',
           width: '40vw',
           border: '2px solid grey',
           borderRadius: '10px',
           padding: '10px',
           display: 'flex',
           flexDirection: 'column',
+          position: 'relative',
         }}
       >
         <TextMsg text="Hello from User" role="User" />
@@ -68,6 +90,31 @@ const MainChat = () => {
         <TextMsg text="Bot says Heyaa" role="Bot" />
         <TextMsg text="Hello from User" role="User" />
         <TextMsg text="Bot says Heyaa" role="Bot" />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '0',
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}
+        >
+          <input
+            value={currMessage}
+            style={{
+              width: '80%',
+              padding: '10px',
+              marginRight: '5px',
+            }}
+            placeholder="Type Here..."
+            onChange={(e) => {
+              setCurrMessage(e.target.value);
+            }}
+          />
+          <button style={{ flex: 1 }} onClick={handleMessageSend}>
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -27,7 +27,9 @@ const Login = () => {
             router.push('/register');
           } else {
             // store jwt in local
+            console.log(res);
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('uid', res.data.data._id);
             router.push('/chat');
           }
         })
@@ -65,6 +67,7 @@ const Logout = () => {
   const handleLogout = async () => {
     try {
       await firebase.auth().signOut();
+      localStorage.clear();
       // Redirect to the home page after successful logout
       router.push('/');
     } catch (error) {
@@ -74,7 +77,9 @@ const Logout = () => {
 
   return (
     <div>
-      <button className='btn' onClick={handleLogout}>Logout</button>
+      <button className="btn" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };
