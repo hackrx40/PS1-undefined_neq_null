@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "autoprefixer": "10.4.14",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "firebase": "^10.1.0",
     "firebase-admin": "^11.10.1",
     "next": "13.4.11",

@@ -2,16 +2,35 @@ import { useEffect } from 'react';
 import firebase from '../lib/firebaseClient';
 import 'firebase/compat/auth';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const Login = () => {
   const router = useRouter();
+  const prodUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   // Function to handle Google sign-in
   const handleGoogleSignIn = async () => {
     try {
       const provider = new firebase.auth.GoogleAuthProvider();
-      await firebase.auth().signInWithPopup(provider);
+      const result = await firebase.auth().signInWithPopup(provider);
       // Redirect to the home page after successful sign-in
+      const { email, displayName, photoURL } = result.user;
+      localStorage.setItem('email', email);
+      localStorage.setItem('name', displayName);
+      localStorage.setItem('avatarURL', photoURL);
+      axios
+        .post(`${prodUrl}api/v1/user/login`, { email })
+        .then((res) => {
+          if (!res.data.success) {
+            router.push('/register');
+          } else {
+            // store jwt in local
+            localStorage.setItem('token', res.data.token);
+            router.push('/chat');
+          }
+        })
+        .catch((err) => console.log(err));
+
       console.log('User Logged In');
       router.push('/chat');
     } catch (error) {
