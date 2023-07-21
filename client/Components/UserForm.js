@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import './css/UserForm.css'
 
 const UserForm = () => {
   const router = useRouter();
@@ -45,63 +46,65 @@ const UserForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="age">Age:</label>
-        <input
-          type="number"
-          id="age"
-          value={age}
-          onChange={(e) => setAge(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="gender">Gender:</label>
-        <select
-          id="gender"
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          required
-        >
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="others">Others</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="weight">Weight (kg):</label>
-        <input
-          type="number"
-          id="weight"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="height">Height (cm):</label>
-        <input
-          type="number"
-          id="height"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="bloodGrp">Blood Group:</label>
-        <input
-          type="text"
-          id="bloodGroup"
-          value={bloodGrp}
-          onChange={(e) => setBloodGrp(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <div className="form container">
+      <form className="form-box" onSubmit={handleSubmit}>
+        <div className="form-input">
+          <label htmlFor="age">Age:</label>
+          <input
+            type="number"
+            id="age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="gender">Gender:</label>
+          <select
+            id="gender"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+            required
+          >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+          </select>
+        </div>
+        <div className="form-input">
+          <label htmlFor="weight">Weight (kg):</label>
+          <input
+            type="number"
+            id="weight"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="height">Height (cm):</label>
+          <input
+            type="number"
+            id="height"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-input">
+          <label htmlFor="bloodGrp">Blood Group:</label>
+          <input
+            type="text"
+            id="bloodGroup"
+            value={bloodGrp}
+            onChange={(e) => setBloodGrp(e.target.value)}
+            required
+          />
+        </div>
+        <button className='btn' type="submit">Submit</button>
+      </form>
+    </div>
   );
 };
 
