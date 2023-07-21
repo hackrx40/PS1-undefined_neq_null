@@ -5,7 +5,8 @@ import firebase from '../../lib/firebaseClient';
 import 'firebase/compat/auth';
 import { useRouter } from 'next/navigation';
 import { Logout } from '../../Components/Login';
-import { io } from 'socket.io-client';
+
+import MainChat from '../../Components/mainChat.js';
 
 export default function Home() {
   const router = useRouter();
@@ -21,23 +22,10 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-  const socket = io(`${backendURL}chat`);
-  socket.on('connect', () => {
-    console.log(socket);
-  });
-
-  socket.emit('message', {
-    message: 'Hello World',
-  });
-
-  socket.on('received-this', (message) => {
-    console.log(message);
-  });
-
   return (
     <main className="">
       <div>
-        Chat Page
+        <MainChat />
         <Logout />
       </div>
     </main>
