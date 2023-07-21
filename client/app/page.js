@@ -6,7 +6,7 @@ import './css/page.css';
 
 export default function Home() {
   return (
-    <main>
+    <main className='landing-container'>
       <div className='illustration-container'>
         <h1>Health Aid</h1>
         <Image
