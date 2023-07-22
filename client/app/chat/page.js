@@ -5,9 +5,9 @@ import firebase from '../../lib/firebaseClient';
 import 'firebase/compat/auth';
 import { useRouter } from 'next/navigation';
 import { Logout } from '../../Components/Login';
-import '../../Components/css/ToggleComponent.css';
 
 import MainChat from '../../Components/mainChat.js';
+import '../../Components/css/ToggleComponent.css';
 
 export default function Home() {
   const router = useRouter();
@@ -57,15 +57,21 @@ export default function Home() {
     }, [drugsDotComSelected]);
 
     return (
-      <div style={{}}>
-        <h2>Select the websites:</h2>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <div
           style={{
-            width: '75%',
             display: 'flex',
+            gap: '12px',
+            justifyContent: 'center',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '8px',
           }}
         >
           <span>Mayo Clinic:</span>
@@ -80,10 +86,10 @@ export default function Home() {
         </div>
         <div
           style={{
-            width: '75%',
             display: 'flex',
+            gap: '12px',
+            justifyContent: 'center',
             alignItems: 'center',
-            justifyContent: 'space-between',
           }}
         >
           <span>Drugs.com:</span>
@@ -117,22 +123,13 @@ export default function Home() {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
             width: 'fit-content',
             position: 'absolute',
             right: 0,
             top: 0,
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              // flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <div style={{ display: 'flex', marginBottom: '5px' }}>
             <div style={{ margin: '5px 10px' }}>
               <button className="btn" onClick={handleResetChat}>
                 Reset Chat

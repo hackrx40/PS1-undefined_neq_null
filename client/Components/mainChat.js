@@ -3,11 +3,19 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
 import '../Components/css/Login.css';
+import './css/mainChat.css';
 
 const TextMsg = ({ text, sender }) => {
   const url = localStorage.getItem('avatarURL');
   return (
-    <div style={{ display: 'flex', alignItems: 'center', fontSize: '14px' }}>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        fontSize: '14px',
+        margin: '8px 0px',
+      }}
+    >
       {sender == 'bot' ? (
         <div>
           <Image
@@ -35,6 +43,7 @@ const TextMsg = ({ text, sender }) => {
                 borderRadius: '5px',
                 // justifySelf: 'flex-end',
                 marginLeft: 'auto',
+                textAlign: 'left',
               }
             : {
                 width: 'fit-content',
@@ -67,6 +76,7 @@ const TextMsg = ({ text, sender }) => {
 const MainChat = () => {
   const prodURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+  const [isLoading, setIsLoading] = useState(false);
   const [currMessage, setCurrMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
 
@@ -88,6 +98,7 @@ const MainChat = () => {
   }, []);
 
   const handleMessageSend = () => {
+    setIsLoading(true);
     setChatHistory((prev) => [
       ...prev,
       {
@@ -96,23 +107,39 @@ const MainChat = () => {
       },
     ]);
 
+    let sources = [];
+    if (localStorage.getItem('mayoClinicSelected')) {
+      sources.push('mayoclinic');
+    } else if (localStorage.getItem('drugsDotComSelected')) {
+      sources.push('drugs_com');
+    }
+
     const data = {
       uid,
       cid,
       message: currMessage,
+      sources,
     };
     setCurrMessage('');
 
+    if (sources.length == 0) {
+      alert('Select atleast One Source');
+      setIsLoading(false);
+      return;
+    }
+    
     axios
       .post(`${prodURL}api/v1/chat/msg`, data)
       .then((res) => {
         // console.log(res.data.chat.msgs);
         localStorage.setItem('cid', res.data.chat._id);
         localStorage.setItem('uid', res.data.chat.userID);
+        setIsLoading(false);
         setChatHistory(res.data.chat.msgs);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
         setChatHistory((prev) => prev.slice(0, -1));
         alert('Encontered an error');
       });
@@ -147,7 +174,7 @@ const MainChat = () => {
 
       <div
         style={{
-          height: '80vh',
+          height: '90vh',
           width: '60vw',
           border: '2px solid grey',
           borderRadius: '10px',
@@ -157,6 +184,7 @@ const MainChat = () => {
         }}
       >
         <div
+          className="overflow-scroll"
           style={{
             padding: '10px',
             display: 'flex',
@@ -167,12 +195,28 @@ const MainChat = () => {
           }}
         >
           {chatHistory.map((item, index) => {
-            console.log(item);
+            // console.log(item);
             return (
               <TextMsg text={item.content} sender={item.sender} key={index} />
             );
           })}
           <div ref={bottomRef} />
+          {isLoading ? (
+            <div class="chat-loading">
+              <div>
+                <Image
+                  src="/images/bot-avatar.jpg"
+                  width={50}
+                  height={50}
+                  alt="avatar"
+                  style={{ borderRadius: '100%' }}
+                />
+              </div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+              <div class="wave"></div>
+            </div>
+          ) : null}
         </div>
 
         <div
@@ -189,8 +233,12 @@ const MainChat = () => {
               width: '80%',
               padding: '2px 5px',
               marginRight: '0',
-              border: '2px solid gray',
+              border: 'none',
+              borderTop: '2px solid gray',
+              outline: 'none',
+              borderRight: 'none',
               fontSize: '15px',
+              borderBottomLeftRadius: '8px',
             }}
             placeholder="Type Here..."
             onChange={(e) => {
@@ -202,9 +250,12 @@ const MainChat = () => {
             style={{
               flex: 1,
               border: 'none',
-              marginRight: '10px',
-              // color: '#CD6688',
+              color: 'white',
               fontSize: '16px',
+              backgroundColor: '#461959',
+              borderLeft: 'none',
+              borderBottomRightRadius: '8px',
+              cursor: 'pointer',
             }}
             onClick={() => {
               if (currMessage != '') {
